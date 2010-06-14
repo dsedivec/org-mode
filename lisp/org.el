@@ -14765,7 +14765,7 @@ If SECONDS is non-nil, return the difference in seconds."
 (defun org-deadline-close-p (timestamp-string &optional ndays)
   "Is the time in TIMESTAMP-STRING close to the current date?"
   (setq ndays (or ndays (org-get-wdays timestamp-string)))
-  (and (<= (org-timestamp-to-now timestamp-string) ndays)
+  (and (<= (org-timestamp-to-now timestamp-string t) (* ndays 86400))
        (not (org-entry-is-done-p))))
 
 (defun org-get-wdays (ts &optional delay zero-delay)
