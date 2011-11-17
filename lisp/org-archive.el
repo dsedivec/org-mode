@@ -370,7 +370,7 @@ direct children of this heading."
 		    (skip-chars-backward " \t\r\n")
 		    (and (looking-at "[ \t\r\n]*")
 			 ;; datetree archives don't need so much spacing.
-			 (replace-match (if datetree-date "\n" "\n\n"))))
+			 (replace-match "\n")))
 		;; No specific heading, just go to end of file, or to the
 		;; beginning, depending on `org-archive-reversed-order'.
 		(if org-archive-reversed-order
