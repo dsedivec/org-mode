@@ -3038,6 +3038,7 @@ a number of clock tables."
             (`year "Annual report starting on: ")
             (`quarter "Quarterly report starting on: ")
             (_ (user-error "Unknown `:step' specification: %S" step))))
+         (collapse-steps (plist-get params :collapse-steps))
          (week-start (or (plist-get params :wstart) 1))
          (month-start (or (plist-get params :mstart) 1))
          (range
@@ -3068,10 +3069,11 @@ a number of clock tables."
     (while (time-less-p start end)
       (unless (bolp) (insert "\n"))
       ;; Insert header before each clock table.
-      (insert "\n"
-              step-header
-              (format-time-string (org-time-stamp-format nil t) start)
-	      "\n")
+      (unless collapse-steps
+        (insert "\n"
+                step-header
+                (format-time-string (org-time-stamp-format nil t) start)
+	        "\n"))
       ;; Compute NEXT, which is the end of the current clock table,
       ;; according to step.
       (let* ((next
