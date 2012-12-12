@@ -9968,6 +9968,8 @@ statistics everywhere."
 		  0))
 	 (first t)
 	 (box-re "\\(\\(\\[[0-9]*%\\]\\)\\|\\(\\[[0-9]*/[0-9]*\\]\\)\\)")
+	 ;; Don't match keywords case insensitively.
+	 (case-fold-search nil)
 	 level ltoggle l1 new ndel
 	 (cnt-all 0) (cnt-done 0) is-percent kwd
 	 checkbox-beg cookie-present)
