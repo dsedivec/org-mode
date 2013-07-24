@@ -529,7 +529,7 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 	      (org-copy-subtree 1 nil t))
 	    (with-current-buffer (setq nbuf (or (find-buffer-visiting file)
 						(find-file-noselect file)))
-	      (setq reversed (org-notes-order-reversed-p))
+	      (setq reversed (org-notes-order-reversed-at-pos-p pos))
 	      (org-with-wide-buffer
 	       (if pos
 		   (progn
