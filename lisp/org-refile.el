@@ -564,7 +564,7 @@ prefix argument (\\`C-u C-u C-u C-c C-w')."
               ;; unexpected location.
               (set-marker-insertion-type origin t)
 	      (with-current-buffer (setq nbuf (find-file-noselect file 'nowarn))
-	        (setq reversed (org-notes-order-reversed-p))
+	        (setq reversed (org-notes-order-reversed-at-pos-p pos))
 	        (org-with-wide-buffer
 	         (if pos
 		     (progn

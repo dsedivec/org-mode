@@ -9011,6 +9011,19 @@ or to another Org file, automatically push the old position onto the ring."
 	    (throw 'exit (cdr entry))))))
    (t org-reverse-note-order)))
 
+(defun org-notes-order-reversed-at-pos-p (pos)
+  (let ((prop-value (org-entry-get pos "REFILE_REVERSE_NOTE_ORDER"
+                  t t))
+   (org-reverse-note-order org-reverse-note-order))
+    (when (org-string-nw-p prop-value)
+      (setq org-reverse-note-order
+       (condition-case nil
+       (read prop-value)
+         (error
+          (error "Can't read REFILE_REVERSE_NOTE_ORDER %S"
+             prop-value)))))
+    (org-notes-order-reversed-p)))
+
 (defvar org-agenda-new-buffers nil
   "Buffers created to visit agenda files.")
 
