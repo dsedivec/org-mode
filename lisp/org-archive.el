@@ -346,7 +346,6 @@ direct children of this heading."
 		  (org-todo-regexp tr-org-todo-regexp)
 		  (org-todo-line-regexp tr-org-todo-line-regexp))
 	      (goto-char (point-min))
-	      (org-fold-show-all '(headings blocks))
 	      (if (and heading (not (and datetree-date (not datetree-subheading-p))))
 		  (progn
 		    (if (re-search-forward
