@@ -682,16 +682,11 @@ Where possible, use the standard interface for changing this line."
 	       (org-with-point-at pom
 		 (call-interactively #'org-beamer-select-environment))))
 	    (_
-	     (let* ((allowed (org-property-get-allowed-values pom key 'table))
-		    (value (get-char-property (point) 'org-columns-value))
-		    (nval (org-trim
-			   (if (null allowed) (read-string "Edit: " value)
-			     (completing-read
-			      "Value: " allowed nil
-			      (not (get-text-property
-				    0 'org-unrestricted (caar allowed))))))))
-	       (and (not (equal nval value))
-		    (lambda () (org-entry-put pom key nval))))))))
+	     (let* ((nval (org-with-point-at pom
+			    (org-read-property-value key)))
+		    (value (get-char-property (point) 'org-columns-value)))
+	       (when (not (equal nval value))
+		 (lambda () (org-entry-put pom key nval))))))))
     (cond
      ((null action))
      ((eq major-mode 'org-agenda-mode)
