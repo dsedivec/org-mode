@@ -59,7 +59,7 @@ PKG_TAG = $(shell date +%Y%m%d)
 PKG_DOC = "Outline-based notes management and organizer"
 PKG_REQ = "" # marmalade chokes on explicit "nil"
 
-elpa:		cleanall info card elpa-dirty
+elpa:		cleanall autoloads info card elpa-dirty
 elpa-dirty elpa-up:	ORGDIR=org-$(PKG_TAG)
 elpa-dirty:
 	@$(MAKE) GITVERSION=$(GITVERSION:release_%=%)-elpa version autoloads
@@ -81,7 +81,7 @@ archive-contents:
 	echo "(1 (org              . [($(PKG_TAG)) ($(PKG_REQ)) \"$(PKG_DOC)\" tar])"   > $@
 	echo "   (org-plus-contrib . [($(PKG_TAG)) ($(PKG_REQ)) \"$(PKG_DOC)\" tar]))" >> $@
 
-elpaplus:		cleanall info card elpaplus-dirty
+elpaplus:		cleanall autoloads info card elpaplus-dirty
 elpaplus-dirty elpaplus-up:	ORG_ADD_CONTRIB=org*.el ob-*.el ox-*.el ol-*.el
 elpaplus-dirty elpaplus-up:	ORGDIR=org-plus-contrib-$(PKG_TAG)
 elpaplus-dirty:
