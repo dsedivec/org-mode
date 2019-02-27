@@ -5315,10 +5315,15 @@ stacked delimiters is N.  Escaping delimiters is not possible."
     (catch :exit
       (while (re-search-forward quick-re limit t)
 	(let* ((marker (match-string 2))
-	       (verbatim? (member marker '("~" "="))))
+	       (verbatim? (member marker '("~" "=")))
+	       (enclosing-emph (get-text-property (match-beginning 2)
+						  'org-emphasis)))
 	  (when (save-excursion
 		  (goto-char (match-beginning 0))
 		  (and
+		   ;; Can't start new emphasis in the middle of verbatim.
+		   (or (null enclosing-emph)
+		       (not (car enclosing-emph)))
 		   ;; Do not match table hlines.
 		   (not (and (equal marker "+")
 			     (org-match-line
@@ -5333,6 +5338,9 @@ stacked delimiters is N.  Escaping delimiters is not possible."
 			       (looking-at-p org-outline-regexp-bol))))
 		   ;; Match full emphasis markup regexp.
 		   (looking-at (if verbatim? org-verbatim-re org-emph-re))
+		   ;; Do not allow overlapping with enclosing emphasis.
+		   (or (null enclosing-emph)
+		       (< (match-end 2) (cdr enclosing-emph)))
 		   ;; Do not span over paragraph boundaries.
 		   (not (string-match-p org-element-paragraph-separate
 					(match-string 2)))
@@ -5349,7 +5357,8 @@ stacked delimiters is N.  Escaping delimiters is not possible."
 		(remove-text-properties (match-beginning 2) (match-end 2)
 					'(display t invisible t intangible t)))
 	      (add-text-properties (match-beginning 2) (match-end 2)
-				   '(font-lock-multiline t org-emphasis t))
+				   (list 'font-lock-multiline t 'org-emphasis
+					 (cons verbatim? (match-end 2))))
 	      (when (and org-hide-emphasis-markers
 			 (not (org-at-comment-p)))
 		(add-text-properties (match-end 4) (match-beginning 5)
